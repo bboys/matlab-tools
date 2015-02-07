@@ -1,0 +1,35 @@
+; Script to load applications from sublime
+; currently includes	- MATLAB 2012b
+
+
+#space::
+SetTitleMatchMode, 2
+ifWinActive, Sublime
+{
+WinGetTitle, windowTitle, Sublime
+StringGetPos, pos, windowTitle, .m
+if pos=-1 
+{
+MsgBox Opened file is not a m-file.
+}
+else
+{
+Send ^s
+StringLeft, mFileName, windowTitle, pos+2
+
+
+IfWinExist MATLAB R2012b
+{
+    WinActivate
+}
+else
+{
+    Run MATLAB R2012b
+    WinWait MATLAB R2012b
+    WinActivate
+sleep 5000
+}
+
+Send run(' %mFileName%') {Enter}
+}
+}
